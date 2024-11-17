@@ -3,12 +3,11 @@ package com.tutorial.backend.service.message;
 import com.tutorial.backend.entity.File;
 import com.tutorial.backend.entity.FileMessage;
 import com.tutorial.backend.entity.Message;
-import com.tutorial.backend.repository.FileMessage.FileMessageRepository;
+import com.tutorial.backend.repository.fileMessage.FileMessageRepository;
 import com.tutorial.backend.repository.message.MessageRepository;
 import com.tutorial.backend.service.file.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

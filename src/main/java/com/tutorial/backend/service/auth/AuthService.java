@@ -10,7 +10,7 @@ public interface AuthService {
 
     public Optional<Member> getMemberByEmail(String email);
 
-    public TokenDto socialLogin(String email, String name, String phone);
+    public TokenDto socialLogin(String email, String name);
 
     public TokenDto reissue(TokenRequestDto tokenRequestDto);
 

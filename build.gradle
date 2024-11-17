@@ -67,6 +67,9 @@ dependencies {
 
 //	외부 api용
 	implementation ("org.springframework.boot:spring-boot-starter-webflux")
+
+	implementation 'org.springframework.retry:spring-retry:1.3.4'
+
 }
 
 dependencyManagement {

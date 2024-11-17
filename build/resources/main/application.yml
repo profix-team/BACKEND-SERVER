@@ -60,4 +60,4 @@ jwt:
 
 # 본인의 프로젝트/files로 경로를 수정해야함
 file:
-  upload-dir: /Users/rickyhong/Desktop/Projects/EmotionTalk/files
+  upload-dir: /Users/rickyhong/Desktop/Projects/profix/files

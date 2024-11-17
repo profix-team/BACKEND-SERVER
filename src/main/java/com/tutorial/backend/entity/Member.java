@@ -71,7 +71,6 @@ public class Member {
         this.likes = likes;
     }
 
-
     public Member update(String memberName, String memberPhoneNumber, String memberEmail, String profileImageUrl){
         this.setMemberName(memberName);
         this.setMemberPhone(memberPhoneNumber);

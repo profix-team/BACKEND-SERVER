@@ -1,4 +1,4 @@
-package com.tutorial.backend.repository.FileMessage;
+package com.tutorial.backend.repository.fileMessage;
 
 import com.tutorial.backend.entity.FileMessage;
 import com.tutorial.backend.entity.FileMessageId;

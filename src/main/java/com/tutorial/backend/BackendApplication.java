@@ -39,6 +39,7 @@ public class BackendApplication {
 	public void init() {
 		// Set default timezone
 		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
+		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
 	}
 
 

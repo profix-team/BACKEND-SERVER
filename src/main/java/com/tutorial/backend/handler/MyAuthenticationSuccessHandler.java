@@ -32,8 +32,6 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
             String name = oAuth2User.getAttribute("name");
             Map<String, Object> attributes = oAuth2User.getAttributes();
             Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
-            String phoneNum = (String) kakaoAccount.get("phone_number");
-            phoneNum = phoneNum.replace(" ","").replace("-","");
             Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
             String profileImageUrl = (String) profile.get("profile_image_url");
 
@@ -41,7 +39,6 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
             String redirectUrl = UriComponentsBuilder.fromUriString(REDIRECT_URI)
                     .queryParam("email", email)
                     .queryParam("name",name)
-                    .queryParam("phone",phoneNum)
                     .queryParam("profile",profileImageUrl)
                     .build()
                     .encode(StandardCharsets.UTF_8)

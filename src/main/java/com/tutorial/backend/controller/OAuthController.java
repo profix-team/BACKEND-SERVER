@@ -23,16 +23,15 @@ public class OAuthController {
 
     private final AuthServiceImpl authServiceImpl;
 
-    private static final String REDIRECT_URI = "http://localhost:3000/oauth";
+    private static final String REDIRECT_URI = "http://localhost:5173/oauth";
 
     @GetMapping("loginInfo")
     public void onAuthenticationSuccess(HttpServletResponse response,
                                         @RequestParam String email,
                                         @RequestParam String name,
-                                        @RequestParam String phone,
                                         @RequestParam String profile) throws IOException {
         // 토큰 발행
-        TokenDto tokenDto = authServiceImpl.socialLogin(email, name, phone);
+        TokenDto tokenDto = authServiceImpl.socialLogin(email, name);
         String accessToken = tokenDto.getAccessToken();
         String refreshToken = tokenDto.getRefreshToken();
         Long accessTokenExpiresIn = tokenDto.getAccessTokenExpiresIn();

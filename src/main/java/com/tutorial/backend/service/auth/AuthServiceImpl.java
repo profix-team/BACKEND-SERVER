@@ -34,17 +34,16 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     @Transactional
-    public TokenDto socialLogin(String email, String name, String phone) {
+    public TokenDto socialLogin(String email, String name) {
         Optional<Member> optionalMember = memberRepository.findByMemberEmail(email);
-        return optionalMember.map(member -> updateAndLogin(member, name, phone)).orElseGet(() -> signupAndLogin(email, name, phone));
+        return optionalMember.map(member -> updateAndLogin(member, name)).orElseGet(() -> signupAndLogin(email, name));
     }
 
-    private TokenDto signupAndLogin(String email, String name, String phone) {
+    private TokenDto signupAndLogin(String email, String name) {
         log.info("Sign up new member: " + email);
         Member newMember = Member.builder()
                 .memberEmail(email)
                 .memberName(name)
-                .memberPhone(phone)
                 .status(StatusType.ABLE)
                 .authority(Authority.USER)
                 .build();
@@ -57,10 +56,9 @@ public class AuthServiceImpl implements AuthService{
         return tokenDto;
     }
 
-    private TokenDto updateAndLogin(Member member, String name, String phone) {
+    private TokenDto updateAndLogin(Member member, String name) {
         log.info("Updating member: " + member.getMemberEmail());
         member.setMemberName(name);
-        member.setMemberPhone(phone);
         memberRepository.save(member);
 
         MemberDetail memberDetail = new MemberDetail(member);

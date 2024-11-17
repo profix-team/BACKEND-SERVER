@@ -1,8 +1,15 @@
 package com.tutorial.backend.controller;
 
+import com.tutorial.backend.controller.dto.CalibrationResponse;
+import com.tutorial.backend.controller.dto.FileUploadResponse;
 import com.tutorial.backend.controller.dto.ResultDto;
 import com.tutorial.backend.entity.File;
+import com.tutorial.backend.entity.FileMember;
+import com.tutorial.backend.entity.Member;
+import com.tutorial.backend.service.CalibrationService;
 import com.tutorial.backend.service.file.FileService;
+import com.tutorial.backend.service.fileMember.FileMemberService;
+import com.tutorial.backend.service.member.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +35,10 @@ import java.nio.file.Paths;
 @RequiredArgsConstructor
 public class FileController {
 
+    private final CalibrationService calibrationService;
     private final FileService fileService;
+    private final FileMemberService fileMemberService; // FileMemberService 추가
+    private final MemberService memberService;
 
     @PostMapping("/upload")
     public ResponseEntity<ResultDto<Long>> uploadFile(@RequestParam("file") MultipartFile file) {
@@ -63,5 +73,39 @@ public class FileController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error downloading file");
         }
+
     }
+
+    @PostMapping("/upload/calibrate")
+    public ResponseEntity<FileUploadResponse> uploadAndCalibrate(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("memberId") Long memberId) throws IOException {
+
+        // 파일 업로드
+        File uploadedFile = fileService.uploadFile(file);
+
+        // Calibrate 작업 수행
+        CalibrationResponse calibrationResponse = calibrationService.calibrate(file);
+
+        // Member 조회
+        Member member = memberService.getMemberById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("Member not found with id: " + memberId));
+
+        // FileMember 저장
+        fileMemberService.saveFileMember(uploadedFile, member);
+
+        // 응답 DTO 생성
+        FileUploadResponse response = FileUploadResponse.builder()
+                .fileId(uploadedFile.getId())
+                .fileUrl(uploadedFile.getFilePath()) // 파일 URL
+                .fileName(uploadedFile.getFileOriginName()) // 원본 파일 이름
+                .calibrationResult(calibrationResponse)
+                .build();
+
+        return ResponseEntity.ok(response);
+    }
+
+
+
+
 }
